@@ -1,14 +1,12 @@
 import React from 'react'
 import { Text, StyleSheet } from 'react-native'
 
-const BodyText = ({ children }) => {
-  return <Text style={styles.text}>{children}</Text>
+const BodyText = ({ children, style = {} }) => {
+  return <Text style={{ ...styles.text, ...style }}>{children}</Text>
 }
 
 const styles = StyleSheet.create({
-  text: {
-    fontFamily: 'open-sans-bold',
-  },
+  text: {},
 })
 
 export default BodyText

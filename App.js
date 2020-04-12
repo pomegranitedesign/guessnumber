@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { StyleSheet, View } from 'react-native'
-import * as Font from 'expo-font'
+import { useFonts } from '@use-expo/font'
 import { AppLoading } from 'expo'
 
 import Header from './components/Header'
@@ -8,29 +8,14 @@ import StartGameScreen from './screens/StartGameScreen'
 import GameScreen from './screens/GameScreen'
 import GameOverScreen from './screens/GameOverScreen'
 
-const fetchFonts = () => {
-  Font.loadAsync({
-    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
-    'open-sans-regular': require('./assets/fonts/OpenSans-Regular.ttf'),
-  })
-}
-
 const App = () => {
   const [userNumber, setUserNumber] = useState()
   const [gameRounds, setGameRounds] = useState(0)
-  const [loaded, setLoaded] = useState(false)
+  const [fontsLoaded] = useFonts({
+    'open-sans-bold': require('./assets/fonts/OpenSans-Bold.ttf'),
+    'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
+  })
 
-  if (!loaded) {
-    return (
-      <AppLoading
-        startAsync={fetchFonts}
-        onFinish={() => setLoaded(true)}
-        onError={(error) => console.error(error)}
-      />
-    )
-  }
-
-  // Helpers
   const startNewGame = () => {
     setGameRounds(0)
     setUserNumber(null)
@@ -57,6 +42,7 @@ const App = () => {
       />
     )
 
+  if (!fontsLoaded) return <AppLoading />
   return (
     <View style={styles.screen}>
       <Header title="Guess The Number" />
